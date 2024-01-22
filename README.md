@@ -33,26 +33,27 @@
    google-chrome
    ```
    In google chrome open `https://172.16.0.2/desk/` and press `Click to unlock joints`
-      
-2. Run the start_control_pc script from the frankapy package
+
+2. Run `roscore` on the control pc. In a new terminal:
+   ```bash
+   roscore
+   ```
+
+3. Run the start_control_pc script from the frankapy package
    ```bash
    cd <frankapy package directory>
    bash ./bash_scripts/start_control_pc.sh -u student -i [control-pc-name]
    ```
-   This should launch 4 terminals which sets up frankapy to communicate with the robot.
-   
-   **Note:** While developing, it might be a good idea to start `roscore` separately in a different terminal and then launch the above script. This allows frankapy to be reset without killing development nodes. When `roscore` is started separately, only 3 terminals open instead of 4, and to reset frankapy communication, just kill the 3 terminals and rerun the script.
+   This should launch 3 terminals which sets up frankapy to communicate with the robot. To reset frankapy communication, just kill the 3 terminals and rerun the script.
    
 4. **Running the Docker Container:**
    - Run the Docker Container. In a new terminal:
       ```bash
-      cd frankapy_docker
       bash run_docker.sh
       ```
 
    - Attach a terminal connected to the Docker Container:
       ```bash
-      cd frankapy_docker
       bash terminal_docker.sh
       ```
 
