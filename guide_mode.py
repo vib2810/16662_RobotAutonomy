@@ -10,7 +10,6 @@ Commands:
 import numpy as np
 import time
 import sys
-sys.path.append("/home/ros_ws/src/git_packages/frankapy")
 from frankapy import FrankaArm
 if __name__ == "__main__":
     

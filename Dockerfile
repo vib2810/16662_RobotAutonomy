@@ -27,10 +27,14 @@ RUN pip3 install torch torchvision torchaudio --index-url https://download.pytor
 # mount src folder from desktop to /home/ros_ws/src
 COPY src/devel_packages /home/ros_ws/src/devel_packages
 
+# clone git packages
 RUN mkdir -p /home/ros_ws/src/git_packages 
 RUN cd /home/ros_ws/src/git_packages && git clone --recursive https://github.com/iamlab-cmu/frankapy.git \
         && git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel \
         && git clone https://github.com/IFL-CAMP/easy_handeye
+
+# add frankapy to python path
+ENV PYTHONPATH "${PYTHONPATH}:/home/ros_ws/src/git_packages/frankapy"
 
 # Install Depencencies via rosdep on src folder
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /home/ros_ws; rosdep install --from-paths src --ignore-src -r -y"
