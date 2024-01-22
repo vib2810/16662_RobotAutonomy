@@ -7,7 +7,7 @@
    - [Install Nvidia Docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
    - (Optional) Add docker to [sudoers](https://docs.docker.com/engine/install/linux-postinstall)\
       Do not forget to logout and login after adding docker to sudoers\
-      If not done, please run all docker commands with a `sudo` prefix
+      If not done, please run all docker commands with a `sudo` prefix.
 
 - **Setup Frankapy:**\
    Follow instructions from the official [frankapy](https://github.com/iamlab-cmu/frankapy) repository and clone the frankapy repository at `/home/student`
@@ -26,7 +26,7 @@
    ```
 
 ### Running Demo Code:
-**Note:** Replace `[control-pc-name]` with the name of the control pc, for example `iam-snowwhite`
+**Note:** Replace `[control-pc-name]` with the name of the control pc, for example, `iam-snowwhite`
 1. Unlock robot joints
    ```bash
    ssh -X student@[control-pc-name]
@@ -39,8 +39,11 @@
    cd <frankapy package directory>
    bash ./bash_scripts/start_control_pc.sh -u student -i [control-pc-name]
    ```
-
-3. **Running the Docker Container:**
+   This should launch 4 terminals which sets up frankapy to communicate with the robot.
+   
+   **Note:** While developing, it might be a good idea to start `roscore` separately in a different terminal and then launch the above script. This allows frankapy to be reset without killing development nodes. When `roscore` is started separately, only 3 terminals open instead of 4, and to reset frankapy communication, just kill the 3 terminals and rerun the script.
+   
+4. **Running the Docker Container:**
    - Run the Docker Container. In a new terminal:
       ```bash
       cd frankapy_docker
@@ -53,14 +56,14 @@
       bash terminal_docker.sh
       ```
 
-4. **Run the MoveIt Server:** <br>
+5. **Run the MoveIt Server:** <br>
     In a new terminal
     ```bash
     bash terminal_docker.sh
     roslaunch manipulation demo_frankapy.launch
     ```
 
-5. **Run the demo_moveit.py script:** <br>
+6. **Run the demo_moveit.py script:** <br>
     In a new terminal
     ```bash
     bash terminal_docker.sh
