@@ -9,6 +9,7 @@ docker run --privileged --rm -it \
     --network host \
     -v "$(pwd)/src/devel_packages:/home/ros_ws/src/devel_packages" \
     -v "$(pwd)/guide_mode.py:/home/ros_ws/guide_mode.py" \
+    -v "$(pwd)/reset_joints.py:/home/ros_ws/reset_joints.py" \
     -v "/etc/timezone:/etc/timezone:ro" \
     -v "/etc/localtime:/etc/localtime:ro" \
     -v "/dev:/dev" \
