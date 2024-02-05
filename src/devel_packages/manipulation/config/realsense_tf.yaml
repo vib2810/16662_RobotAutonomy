@@ -1,0 +1,10 @@
+pose:
+  translation: 
+    x: 0
+    y: 0
+    z: 0
+  rotation: 
+    x: 0
+    y: 0
+    z: -0.7
+    w: 0.7
