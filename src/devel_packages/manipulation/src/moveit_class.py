@@ -7,8 +7,7 @@ import moveit_msgs.msg
 import geometry_msgs.msg
 import sensor_msgs.msg
 import numpy as np
-from moveit_msgs.msg import PlanningScene, CollisionObject
-from shape_msgs.msg import SolidPrimitive, Mesh
+from moveit_msgs.msg import PlanningScene
 import scipy.spatial.transform as spt
 
 sys.path.append("/home/ros_ws/src/git_packages/frankapy")
@@ -17,8 +16,9 @@ from frankapy import FrankaConstants as FC
 from frankapy.proto_utils import sensor_proto2ros_msg, make_sensor_group_msg
 from frankapy.proto import JointPositionSensorMessage, ShouldTerminateSensorMessage
 from franka_interface_msgs.msg import SensorDataGroup
+import copy
 
-class moveit_planner():
+class MoveItPlanner():
     def __init__(self) -> None: #None means no return value
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node('move_group_python_interface_tutorial',anonymous=True)
@@ -89,6 +89,26 @@ class moveit_planner():
             joint_values.append(plan.joint_trajectory.points[i].positions)
         joint_values = np.array(joint_values)
         return joint_values, plan
+
+    def get_straight_plan_given_pose(self, pose_goal: geometry_msgs.msg.Pose):
+        """
+        pose_goal: geometry_msgs.msg.Pose
+        Plans a trajectory given a tool pose goal
+        Returns joint_values
+        joint_values: numpy array of shape (N x 7)
+        """
+        waypoints = []
+        waypoints.append(copy.deepcopy(pose_goal))
+
+        (plan, fraction) = self.group.compute_cartesian_path(
+            waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
+        )  # jump_threshold
+
+        joint_values = []
+        for i in range(len(plan.joint_trajectory.points)):
+            joint_values.append(plan.joint_trajectory.points[i].positions)
+        joint_values = np.array(joint_values)
+        return joint_values
 
     def execute_plan(self, joints_traj):
         """
@@ -294,7 +314,7 @@ class moveit_planner():
         self.scene.remove_world_object(name)
 
 if __name__ == "__main__":
-    franka_moveit = moveit_planner()
+    franka_moveit = MoveItPlanner()
 
     # Print Current Robot State (Joint Values and End Effector Pose)
     franka_moveit.print_robot_state()

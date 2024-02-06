@@ -17,7 +17,7 @@ include_directories(
 
 ## Add executables
 catkin_install_python(PROGRAMS
-  src/demo_moveit.py
+  src/moveit_class.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -28,6 +28,11 @@ catkin_install_python(PROGRAMS
 
 catkin_install_python(PROGRAMS
   src/realsense_tf_publisher.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS
+  src/moveit_test.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
