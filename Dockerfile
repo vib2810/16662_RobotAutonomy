@@ -45,6 +45,42 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /home/ros_ws; catkin_mak
 # Add sourcing ros ws to bashrc
 RUN echo "source /home/ros_ws/devel/setup.bash" >> ~/.bashrc
 
+## Azure kinect installation  steps
+# Update package lists
+RUN apt-get update && apt-get upgrade -y
+
+# Install necessary packages
+RUN apt-get install -y curl openssh-server git vim terminator software-properties-common autoconf automake libtool make g++ unzip python3-distutils
+
+# Install additional Python packages
+RUN pip3 install catkin-tools empy
+
+# Add ROS setup.bash to .bashrc
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+
+# Install libsoundio1
+RUN apt-get install -y libsoundio1
+
+# Download Azure Kinect packages
+RUN wget https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4a1.4-dev/libk4a1.4-dev_1.4.1_amd64.deb \
+    && wget https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4a1.4/libk4a1.4_1.4.1_amd64.deb \
+    && wget https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/k/k4a-tools/k4a-tools_1.4.1_amd64.deb
+
+# Install Azure Kinect packages
+RUN ACCEPT_EULA=y dpkg -i libk4a1.4* k4a-tools*
+
+# Clean up downloaded packages
+RUN rm libk4a1.4*
+RUN rm k4a-tools*
+
+# Clone Azure Kinect ROS Driver
+RUN mkdir -p ~/ros/noetic/src && cd ~/ros/noetic/src && git clone --recursive https://github.com/microsoft/Azure_Kinect_ROS_Driver.git -b melodic
+RUN cd ~/ros/noetic/src/Azure_Kinect_ROS_Driver && git checkout melodic
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd ~/ros/noetic/; catkin_make"
+
+# # # # Extend ROS environment
+RUN echo "source ~/ros/noetic/devel/setup.bash" >> ~/.bashrc
+
 # set workdir as home/ros_ws
 WORKDIR /home/ros_ws
 
