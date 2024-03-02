@@ -74,12 +74,12 @@ RUN rm libk4a1.4*
 RUN rm k4a-tools*
 
 # Clone Azure Kinect ROS Driver
-RUN mkdir -p ~/ros/noetic/src && cd ~/ros/noetic/src && git clone --recursive https://github.com/microsoft/Azure_Kinect_ROS_Driver.git -b melodic
-RUN cd ~/ros/noetic/src/Azure_Kinect_ROS_Driver && git checkout melodic
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd ~/ros/noetic/; catkin_make"
+RUN cd /home/ros_ws/src/git_packages && git clone --recursive https://github.com/microsoft/Azure_Kinect_ROS_Driver.git -b melodic
+RUN cd /home/ros_ws/src/git_packages/Azure_Kinect_ROS_Driver && git checkout melodic
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /home/ros_ws; catkin_make"
 
-# # # # Extend ROS environment
-RUN echo "source ~/ros/noetic/devel/setup.bash" >> ~/.bashrc
+# Add sourcing ros ws to bashrc
+RUN echo "source /home/ros_ws/devel/setup.bash" >> ~/.bashrc
 
 # set workdir as home/ros_ws
 WORKDIR /home/ros_ws
